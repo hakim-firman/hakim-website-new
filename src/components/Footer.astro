@@ -1,0 +1,93 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/hakim-logo.png';
+import { footerCols, site } from '../data/site';
+import Icon from './Icon.astro';
+
+const socials = [
+  { name: 'upwork', href: site.upwork, label: 'Upwork' },
+  { name: 'github', href: site.github, label: 'GitHub' },
+  { name: 'linkedin', href: site.linkedin, label: 'LinkedIn' },
+] as const;
+
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-paper-2">
+  <div class="rail pt-14 pb-8">
+    <div class="flex flex-col gap-6 border-b border-line pb-8 sm:flex-row sm:items-center sm:justify-between">
+      <div class="flex items-center gap-4">
+        <Image
+          src={logo}
+          alt=""
+          width={86}
+          height={86}
+          loading="lazy"
+          class="size-11 rounded-full bg-paper p-1 outline outline-line-2"
+        />
+        <p class="flex flex-col">
+          <span class="text-[15px] font-semibold tracking-[-0.02em]"
+            >Available for freelance from Sleman, Indonesia.</span
+          >
+          <span class="mt-1 text-[13px] text-ink-2">Remote-friendly across GMT+7 ± 8 hours.</span>
+        </p>
+      </div>
+
+      <ul class="flex items-center gap-2">
+        {
+          socials.map((s) => (
+            <li>
+              <a
+                href={s.href}
+                target={s.href.startsWith('http') ? '_blank' : undefined}
+                rel={s.href.startsWith('http') ? 'noopener noreferrer me' : undefined}
+                aria-label={s.label}
+                class="flex size-9 items-center justify-center rounded-full border border-line-2 text-ink-2 transition-all duration-300 hover:-translate-y-0.5 hover:border-green hover:bg-green hover:text-white"
+              >
+                <Icon name={s.name} size={16} />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <nav aria-label="Footer" class="grid gap-8 py-10 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        footerCols.map((col) => (
+          <div>
+            <h2 class="font-mono text-[10px] tracking-[0.12em] text-ink-3 uppercase">{col.title}</h2>
+            <ul class="mt-4 flex flex-col gap-2.5">
+              {col.links.map((l) => (
+                <li>
+                  <a
+                    href={l.href}
+                    target={l.href.startsWith('http') ? '_blank' : undefined}
+                    rel={l.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                    class="text-[13.5px] text-ink-2 transition-colors hover:text-green-dark"
+                  >
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </nav>
+
+    <div
+      class="flex flex-col gap-2 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between"
+    >
+      <p class="text-[12.5px] text-ink-3">© {year} {site.name}. All rights reserved.</p>
+      <p class="font-mono text-[12px] text-ink-3">hakimfirman.my.id</p>
+    </div>
+  </div>
+
+  <p
+    class="overflow-hidden px-4 pb-6 text-center text-[clamp(2.5rem,11vw,8.5rem)] leading-[0.9] font-bold tracking-[-0.05em] text-green select-none"
+    aria-hidden="true"
+  >
+    Hakim Firman
+  </p>
+</footer>

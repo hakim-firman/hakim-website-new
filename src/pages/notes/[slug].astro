@@ -1,0 +1,110 @@
+---
+import { getCollection, render } from 'astro:content';
+import SubPage from '../../layouts/SubPage.astro';
+import Icon from '../../components/Icon.astro';
+import { site } from '../../data/site';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('notes');
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { title, description, date, datetime, num } = entry.data;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  description,
+  datePublished: datetime,
+  author: { '@id': `${site.url}/#person` },
+  url: `${site.url}/notes/${entry.id}`,
+};
+---
+
+<SubPage
+  title={`${title} — ${site.name}`}
+  description={description}
+  kicker={`— Note ${num}`}
+  heading={title}
+  closing="Want a walkthrough of this for your team?"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />
+
+  <section class="band">
+    <div class="rail pb-16">
+      <a
+        href="/notes"
+        class="group inline-flex items-center gap-2 text-[13px] font-medium text-ink-2 transition-colors hover:text-ink"
+        data-reveal
+      >
+        <Icon name="arrow" size={14} class="rotate-180 transition-transform duration-300 group-hover:-translate-x-0.5" />
+        All notes
+      </a>
+
+      <time datetime={datetime} class="mt-6 block font-mono text-[11px] text-ink-3" data-reveal>
+        {date}
+      </time>
+
+      <div class="note-content mt-4 max-w-[68ch]" data-reveal>
+        <Content />
+      </div>
+    </div>
+  </section>
+</SubPage>
+
+<style>
+  .note-content :global(h2) {
+    margin-top: 2.25rem;
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  .note-content :global(p) {
+    margin-top: 1rem;
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--color-ink-2);
+  }
+  .note-content :global(ul) {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-left: 1.25rem;
+    list-style: disc;
+    font-size: 15px;
+    color: var(--color-ink-2);
+  }
+  .note-content :global(strong) {
+    color: var(--color-ink);
+    font-weight: 600;
+  }
+  .note-content :global(code) {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    background: var(--color-green-tint);
+    color: var(--color-green-dark);
+    padding: 0.15em 0.4em;
+    border-radius: 4px;
+  }
+  .note-content :global(pre) {
+    margin-top: 1.25rem;
+    overflow-x: auto;
+    border-radius: 1rem;
+    background: var(--color-ink);
+    padding: 1.25rem;
+  }
+  .note-content :global(pre code) {
+    background: none;
+    color: #c9ebd9;
+    padding: 0;
+    font-size: 12.5px;
+    line-height: 1.8;
+  }
+</style>

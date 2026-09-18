@@ -1,0 +1,65 @@
+---
+import { faqs } from '../data/site';
+import Icon from './Icon.astro';
+---
+
+<section id="faq" class="band">
+  <div class="rail py-16 md:py-20">
+    <div class="max-w-[52ch]" data-reveal>
+      <p class="kicker">— FAQ</p>
+      <h2 class="section-title mt-4">Before you reach out</h2>
+    </div>
+
+    <div class="mt-10 border-t border-line" data-faq>
+      {
+        faqs.map((f, i) => (
+          <details name="faq" class="group border-b border-line" open={i === 0}>
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-6 py-5 text-[15.5px] font-semibold tracking-[-0.02em] transition-colors hover:text-green-dark [&::-webkit-details-marker]:hidden">
+              {f.q}
+              <span
+                class="flex size-7 shrink-0 items-center justify-center rounded-full border border-line-2 text-ink-3 transition-all duration-300 group-open:rotate-90 group-open:border-green group-open:bg-green group-open:text-white"
+                aria-hidden="true"
+              >
+                <Icon name="arrow" size={14} />
+              </span>
+            </summary>
+            <div class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-out group-open:grid-rows-[1fr]">
+              <p class="overflow-hidden text-[14px] leading-[1.7] text-ink-2">
+                <span class="block pb-5">{f.a}</span>
+              </p>
+            </div>
+          </details>
+        ))
+      }
+    </div>
+
+    <p class="mt-7 text-[13.5px] text-ink-2" data-reveal>
+      More answers on the <a href="/faq" class="text-green-dark underline underline-offset-2">FAQ page</a>,
+      or <a href="/#contact" class="text-green-dark underline underline-offset-2">ask directly</a>.
+    </p>
+  </div>
+</section>
+
+<script>
+  // Animate open/close: <details> jumps by default, so height is driven by the
+  // grid-rows trick above and the element stays open until the collapse ends.
+  document.querySelectorAll<HTMLDetailsElement>('[data-faq] details').forEach((el) => {
+    const summary = el.querySelector('summary')!;
+    summary.addEventListener('click', (event) => {
+      if (!el.open || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      event.preventDefault();
+      el.dataset.closing = 'true';
+      el.style.setProperty('--x', '0');
+      setTimeout(() => {
+        el.open = false;
+        delete el.dataset.closing;
+      }, 260);
+    });
+  });
+</script>
+
+<style>
+  details[data-closing='true'] > div {
+    grid-template-rows: 0fr;
+  }
+</style>

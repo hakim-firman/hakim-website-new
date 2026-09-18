@@ -1,0 +1,39 @@
+---
+import SubPage from '../layouts/SubPage.astro';
+import { uses, site } from '../data/site';
+---
+
+<SubPage
+  title={`Uses — the tools ${site.name} builds with`}
+  description="The editor, terminal, local setup, hosting, stack and hardware I use to build Laravel and full-stack web apps."
+  kicker="— Uses"
+  heading="What I build with"
+  sub="The editor, terminal, hosting, stack and hardware behind the work."
+>
+  <section class="band">
+    <div class="rail py-6">
+      <dl class="border-t border-line">
+        {
+          uses.map((row, i) => (
+            <div
+              class="grid gap-3 border-b border-line py-6 md:grid-cols-[220px_1fr] md:items-baseline md:px-3"
+              data-reveal
+              style={`--reveal-delay:${i * 70}ms`}
+            >
+              <dt class="text-[15px] font-semibold tracking-[-0.02em]">{row.group}</dt>
+              <dd>
+                <ul class="flex flex-wrap gap-2">
+                  {row.items.map((item) => (
+                    <li class="tag transition-colors hover:border-green-line hover:bg-green-tint hover:text-green-dark">
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+</SubPage>

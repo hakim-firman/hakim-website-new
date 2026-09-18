@@ -1,0 +1,74 @@
+---
+import { project, routes } from '../data/site';
+import Icon from './Icon.astro';
+
+const iconFor = { message: 'message', code: 'code', table: 'table', check: 'check' } as const;
+---
+
+<section id="work" class="band">
+  <div class="rail py-16 md:py-20">
+    <article>
+      <header class="max-w-[58ch]" data-reveal>
+        <p class="kicker">— Selected work</p>
+        <h2 class="section-title mt-4">{project.title}</h2>
+        <p class="mt-5 text-[15px] leading-[1.7] text-ink-2">{project.sub}</p>
+      </header>
+
+      <ul class="mt-7 flex flex-col gap-3">
+        {
+          project.checks.map((c) => (
+            <li class="flex items-start gap-2.5 text-[14px]">
+              <Icon name="check" size={15} class="mt-1 shrink-0 text-green" />
+              {c}
+            </li>
+          ))
+        }
+      </ul>
+
+      <div class="mt-7 flex flex-wrap items-center gap-4">
+        <a href={routes.caseStudy} class="btn btn-primary">
+          View case study
+          <Icon name="arrow" size={15} />
+        </a>
+        <a href="/deck" class="btn btn-ghost">See the full deck</a>
+        <span class="font-mono text-[12px] text-ink-3">{project.note}</span>
+      </div>
+
+      <!-- flow diagram -->
+      <ol
+        class="mt-12 flex flex-col gap-2 rounded-2xl bg-ink p-6 text-white sm:flex-row sm:flex-wrap sm:items-center sm:justify-center lg:flex-nowrap"
+        data-reveal
+      >
+        {
+          project.flow.map((f, i) => (
+            <>
+              <li class="group flex flex-1 flex-col items-center gap-3 px-3 py-4 text-center">
+                <span class="flex size-11 items-center justify-center rounded-full bg-green/15 text-green transition-transform duration-300 group-hover:scale-110">
+                  <Icon name={iconFor[f.icon]} size={18} />
+                </span>
+                <span class="text-[13.5px] font-semibold">{f.title}</span>
+                <span class="font-mono text-[11px] text-white/55">{f.caption}</span>
+              </li>
+              {i < project.flow.length - 1 && (
+                <li class="hidden shrink-0 items-center justify-center text-white/25 sm:flex" aria-hidden="true">
+                  <Icon name="arrow" size={16} />
+                </li>
+              )}
+            </>
+          ))
+        }
+      </ol>
+
+      <dl class="mt-10 grid gap-x-8 gap-y-6 border-t border-line pt-7 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          project.meta.map((m) => (
+            <div class="flex flex-col gap-1.5">
+              <dt class="font-mono text-[10px] tracking-[0.12em] text-ink-3 uppercase">{m.k}</dt>
+              <dd class="text-[14px] font-medium">{m.v}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </article>
+  </div>
+</section>

@@ -1,0 +1,59 @@
+---
+import { testimonials } from '../data/site';
+import Icon from './Icon.astro';
+---
+
+<section id="feedback" class="band bg-paper-2">
+  <div class="rail py-16 md:py-20">
+    <div class="max-w-[52ch]" data-reveal>
+      <p class="kicker">— Feedback</p>
+      <h2 class="section-title mt-4">What clients say after the handover</h2>
+    </div>
+
+    <ul class="mt-12 grid gap-5 md:grid-cols-3">
+      {
+        testimonials.map((t, i) => (
+          <li
+            class:list={[
+              'flex flex-col justify-between gap-6 rounded-2xl border p-6 transition-transform duration-300 hover:-translate-y-1',
+              t.featured
+                ? 'border-transparent bg-ink text-white shadow-lift'
+                : 'border-line-2 bg-paper hover:border-green-line',
+            ]}
+            data-reveal
+            style={`--reveal-delay:${i * 100}ms`}
+          >
+            <figure class="flex h-full flex-col justify-between gap-6">
+              <div class="flex flex-col gap-4">
+              <div class:list={['flex gap-0.5', t.featured ? 'text-green' : 'text-green']} aria-label="5 out of 5 stars">
+                {Array.from({ length: 5 }).map(() => (
+                  <Icon name="star" size={13} />
+                ))}
+              </div>
+              <blockquote class:list={['text-[13.5px] leading-[1.7]', t.featured ? 'text-white/85' : 'text-ink-2']}>
+                “{t.quote}”
+              </blockquote>
+              </div>
+
+            <figcaption class="flex items-center gap-3">
+              <span
+                class:list={[
+                  'flex size-9 items-center justify-center rounded-full text-[13px] font-semibold',
+                  t.featured ? 'bg-green text-white' : 'bg-green-tint text-green-dark',
+                ]}
+                aria-hidden="true"
+              >
+                {t.initial}
+              </span>
+              <span class="flex flex-col">
+                <span class="text-[13.5px] font-semibold">{t.name}</span>
+                <span class:list={['text-[11.5px]', t.featured ? 'text-white/55' : 'text-ink-3']}>{t.role}</span>
+              </span>
+            </figcaption>
+            </figure>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

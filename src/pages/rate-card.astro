@@ -1,0 +1,43 @@
+---
+import SubPage from '../layouts/SubPage.astro';
+import Icon from '../components/Icon.astro';
+import { rateTiers, rateNote, site } from '../data/site';
+---
+
+<SubPage
+  title={`Rate card — ${site.name}`}
+  description="Hourly, fixed scope or retainer. How I price Laravel and full-stack engagements, and how to get a real quote."
+  kicker="— Rates"
+  heading="Straightforward pricing"
+  sub="Hourly, fixed scope, or retainer — pick what fits the work."
+>
+  <section class="band">
+    <div class="rail py-6">
+      <ul class="grid gap-5 md:grid-cols-3">
+        {
+          rateTiers.map((t, i) => (
+            <li
+              class="flex flex-col gap-2 rounded-2xl border border-line-2 bg-paper-2 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-green-line hover:bg-green-tint"
+              data-reveal
+              style={`--reveal-delay:${i * 80}ms`}
+            >
+              <p class="font-mono text-[10px] tracking-[0.12em] text-ink-3 uppercase">{t.name}</p>
+              <p class="text-[20px] font-semibold tracking-[-0.03em]">{t.price}</p>
+              <p class="text-[13.5px] leading-[1.65] text-ink-2">{t.body}</p>
+            </li>
+          ))
+        }
+      </ul>
+
+      <p class="mt-8 max-w-[72ch] text-[14px] leading-[1.7] text-ink-2" data-reveal>{rateNote}</p>
+
+      <div class="mt-7 flex flex-wrap gap-3" data-reveal>
+        <a href={site.upwork} target="_blank" rel="noopener noreferrer me" class="btn btn-primary">
+          Book a consultation
+          <Icon name="arrow-up-right" size={15} />
+        </a>
+        <a href={`mailto:${site.email}`} class="btn btn-ghost">Email me the scope</a>
+      </div>
+    </div>
+  </section>
+</SubPage>

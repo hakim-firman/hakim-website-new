@@ -1,0 +1,71 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/hakim-logo.png';
+import Base from './Base.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+
+interface Props {
+  title: string;
+  description: string;
+  kicker: string;
+  heading: string;
+  sub?: string;
+  placeholder?: string;
+  closing?: string;
+}
+
+const { title, description, kicker, heading, sub, placeholder, closing = 'Got something to build?' } =
+  Astro.props;
+---
+
+<Base title={title} description={description}>
+  <header class="band sticky top-0 z-50 bg-paper/90 backdrop-blur-md">
+    <div class="rail flex h-[72px] items-center justify-between gap-6">
+      <a
+        href="/"
+        class="group inline-flex items-center gap-2 text-[13.5px] font-medium text-ink-2 transition-colors hover:text-ink"
+      >
+        <span class="transition-transform duration-300 group-hover:-translate-x-0.5" aria-hidden="true">←</span>
+        Back to home
+      </a>
+
+      <a href="/" class="flex items-center gap-2.5" aria-label={`${site.name} — home`}>
+        <Image src={logo} alt="" width={22} height={22} loading="eager" class="size-[22px] rounded-full" />
+        <span class="text-[15px] font-bold tracking-[-0.03em]">{site.shortName}</span>
+      </a>
+    </div>
+  </header>
+
+  <main id="main">
+    {
+      placeholder && (
+        <p class="border-b border-[#E9E3D8] bg-[#FBF6EA] py-2 text-center font-mono text-[10.5px] tracking-[0.12em] text-[#804200] uppercase">
+          {placeholder}
+        </p>
+      )
+    }
+
+    <section class="band">
+      <div class="rail py-14 md:py-16">
+        <p class="kicker" data-reveal>{kicker}</p>
+        <h1 class="section-title mt-4" data-reveal>{heading}</h1>
+        {sub && <p class="mt-5 max-w-[64ch] text-[15px] leading-[1.7] text-ink-2" data-reveal>{sub}</p>}
+      </div>
+    </section>
+
+    <slot />
+
+    <section class="bg-paper-2">
+      <div class="rail flex flex-col items-center py-14 text-center">
+        <h2 class="text-[clamp(1.5rem,1.1rem+1.6vw,2rem)] leading-tight font-semibold tracking-[-0.04em]">
+          {closing}
+        </h2>
+        <a href={site.upwork} target="_blank" rel="noopener noreferrer me" class="btn btn-primary mt-6">
+          Hire me on Upwork
+          <Icon name="arrow-up-right" size={15} />
+        </a>
+      </div>
+    </section>
+  </main>
+</Base>

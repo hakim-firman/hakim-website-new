@@ -1,0 +1,73 @@
+---
+import { processSteps, processFacts } from '../data/site';
+---
+
+<svg width="0" height="0" class="absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="step-top" x1="0" y1="0" x2="0.35" y2="1">
+      <stop offset="0" stop-color="#5dd298" />
+      <stop offset="1" stop-color="#2fb371" />
+    </linearGradient>
+    <linearGradient id="step-left" x1="0" y1="0" x2="0.9" y2="1">
+      <stop offset="0" stop-color="#2cb16f" />
+      <stop offset="1" stop-color="#11864c" />
+    </linearGradient>
+    <linearGradient id="step-right" x1="0" y1="0" x2="0.1" y2="1">
+      <stop offset="0" stop-color="#279c62" />
+      <stop offset="1" stop-color="#0c7441" />
+    </linearGradient>
+  </defs>
+</svg>
+
+<section id="process" class="band bg-paper-2">
+  <div class="rail py-16 md:py-20">
+    <div class="max-w-[58ch]" data-reveal>
+      <p class="kicker">— How I work</p>
+      <h2 class="section-title mt-4">Every step of the process, with you in it</h2>
+      <p class="mt-5 text-[15px] leading-[1.7] text-ink-2">
+        Discussion and collaboration are where the good decisions happen — so you see the work long before it
+        is finished.
+      </p>
+    </div>
+
+    <ol class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        processSteps.map((s, i) => (
+          <li class="group flex flex-col" data-reveal style={`--reveal-delay:${i * 90}ms`}>
+            <div class="relative h-[104px] w-[150px]">
+              <svg
+                class="absolute inset-0 h-full w-full overflow-visible transition-transform duration-500 ease-out group-hover:-translate-y-1.5"
+                viewBox="0 0 150 104"
+                aria-hidden="true"
+              >
+                <g transform="translate(0 6) scale(0.5556)">
+                  <path d="M0 67.5l135 67.5 0 22-135-67.5z" fill="url(#step-left)" />
+                  <path d="M135 135l135-67.5 0 22-135 67.5z" fill="url(#step-right)" />
+                  <path d="M135 0l135 67.5-135 67.5-135-67.5z" fill="url(#step-top)" />
+                </g>
+              </svg>
+              <span
+                class="absolute inset-0 flex items-center justify-center pb-3 font-mono text-[19px] font-medium tracking-[-0.04em] text-white transition-transform duration-500 ease-out group-hover:-translate-y-1.5"
+              >
+                {s.num}
+              </span>
+            </div>
+            <h3 class="mt-4 text-[16px] font-semibold tracking-[-0.02em]">{s.title}</h3>
+            <p class="mt-2 text-[13.5px] leading-[1.65] text-ink-2">{s.body}</p>
+          </li>
+        ))
+      }
+    </ol>
+
+    <dl class="mt-14 grid gap-x-8 gap-y-6 border-t border-line pt-7 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        processFacts.map((f) => (
+          <div class="flex flex-col gap-1.5">
+            <dt class="font-mono text-[10px] tracking-[0.12em] text-ink-3 uppercase">{f.k}</dt>
+            <dd class="text-[14px] font-medium">{f.v}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+</section>

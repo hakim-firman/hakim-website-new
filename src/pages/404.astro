@@ -1,0 +1,20 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Base title="Page not found — Hakim Firman" description="That page does not exist. Head back to the homepage.">
+  <Nav />
+  <main id="main" class="band">
+    <div class="rail flex min-h-[52vh] flex-col items-start justify-center py-20">
+      <p class="kicker">— 404</p>
+      <h1 class="section-title mt-4">This page shipped somewhere else.</h1>
+      <p class="mt-5 max-w-[48ch] text-[15px] leading-[1.7] text-ink-2">
+        The link is broken or the page moved. Everything worth seeing lives on the homepage.
+      </p>
+      <a href="/" class="btn btn-primary mt-7">Back to home</a>
+    </div>
+  </main>
+  <Footer />
+</Base>

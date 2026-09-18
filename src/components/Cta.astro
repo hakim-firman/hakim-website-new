@@ -1,0 +1,42 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/hakim-logo.png';
+import { site } from '../data/site';
+import Icon from './Icon.astro';
+---
+
+<section id="contact" class="band">
+  <div class="rail flex flex-col items-center py-16 text-center md:py-20">
+    <Image
+      src={logo}
+      alt=""
+      width={86}
+      height={86}
+      loading="lazy"
+      class="size-14 rounded-full bg-paper p-1.5 shadow-chip outline outline-line-2"
+      data-reveal
+    />
+
+    <h2 class="mt-6 text-[clamp(2rem,1.2rem+3vw,3rem)] leading-[1.05] font-semibold tracking-[-0.045em]" data-reveal>
+      Got something to build?<br />
+      <span class="text-ink-3">Let's ship it.</span>
+    </h2>
+
+    <p class="mt-5 max-w-[52ch] text-[15px] leading-[1.7] text-ink-2" data-reveal>
+      Whether it's a cutting-edge website, a custom bot, or a mobile app solution — I'm here to help. Usually
+      replying within a day.
+    </p>
+
+    <div class="mt-8 flex flex-wrap items-center justify-center gap-3" data-reveal>
+      <a href={site.upwork} target="_blank" rel="noopener noreferrer me" class="btn btn-primary">
+        Hire me on Upwork
+        <Icon name="arrow-up-right" size={15} />
+      </a>
+
+      <a href={site.github} target="_blank" rel="noopener noreferrer me" class="btn btn-ghost">
+        <span>GitHub</span>
+        <Icon name="github" size={15} class="text-ink-3" />
+      </a>
+    </div>
+  </div>
+</section>

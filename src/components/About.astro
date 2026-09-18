@@ -1,0 +1,105 @@
+---
+import { principles } from '../data/site';
+import Icon from './Icon.astro';
+
+// Exact hatch path from the .pen (GB Grid / tBe09): pairs of diagonals across a
+// 452x356 box, 260px apart on the y axis.
+const gridPath = Array.from({ length: 6 }, (_, i) => {
+  const y = -272 + i * 260;
+  return `M0 ${y}l452 226M0 ${y}l452 -226`;
+}).join('');
+---
+
+<section id="about" class="bg-paper">
+  <div class="mx-auto w-full max-w-[1100px] border-x border-line">
+    <div class="overflow-hidden bg-green text-white">
+      <div class="flex flex-col lg:h-[356px] lg:flex-row">
+        <!-- left: the big number, ghost wordmark and floating cube -->
+        <div
+          class="relative flex shrink-0 flex-col overflow-hidden border-white/[0.16] px-6 pt-10 pb-8 sm:px-10 lg:h-full lg:w-[452px] lg:border-r lg:py-[52px] lg:pr-10 lg:pb-0 lg:pl-14"
+        >
+          <svg
+            class="pointer-events-none absolute inset-0 h-full w-full"
+            viewBox="0 0 452 356"
+            preserveAspectRatio="xMidYMid slice"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path d={gridPath} stroke="#FFFFFF1F" stroke-width="1" />
+          </svg>
+
+          <p class="relative text-[clamp(4.5rem,3rem+5vw,7.875rem)] leading-[0.9] font-bold tracking-[-0.056em]">
+            +5
+          </p>
+          <p class="relative mt-1 text-[17px] font-medium tracking-[-0.018em] text-white/80">
+            Years of Experience
+          </p>
+          <p
+            class="relative mt-5 text-[clamp(2.5rem,1.5rem+3.2vw,4.5rem)] leading-[1.1] font-bold tracking-[-0.042em] whitespace-nowrap text-white/[0.16] select-none"
+            aria-hidden="true"
+          >
+            FULL–STACK
+          </p>
+
+          <!-- isometric cube, same face geometry as the .pen slabs -->
+          <svg
+            class="absolute top-11 right-10 hidden h-16 w-[60px] lg:block"
+            viewBox="0 0 60 64"
+            aria-hidden="true"
+          >
+            <path d="M0 15l30 15 0 34-30-15z" fill="#4FD18F"></path>
+            <path d="M30 30l30-15 0 34-30 15z" fill="#1DAE68"></path>
+            <path d="M30 0l30 15-30 15-30-15z" fill="#9FE3C1"></path>
+          </svg>
+        </div>
+
+        <!-- right: the about copy -->
+        <div class="flex flex-1 flex-col px-6 pt-10 pb-12 sm:px-10 lg:px-14 lg:pt-[52px] lg:pb-11">
+          <p class="font-mono text-[11.5px] font-medium tracking-[0.06em] text-white/70">— ABOUT ME</p>
+
+          <h2
+            class="mt-4 text-[clamp(1.75rem,1.2rem+1.8vw,2.25rem)] leading-[1.18] font-semibold tracking-[-0.042em]"
+          >
+            I enjoy every step of the process.
+          </h2>
+
+          <p class="mt-4 max-w-[62ch] text-[16px] leading-[1.7] text-white/[0.78]">
+            With over 5 years as a professional web developer, I have the skills and the knowledge to make your
+            project a success — from the first discussion, through collaboration, to the handover.
+          </p>
+
+          <div class="mt-6">
+            <a
+              href="/#services"
+              class="btn bg-white text-[14.5px] text-green hover:bg-green-tint hover:text-green-dark hover:shadow-[0_12px_30px_-16px_#05391f]"
+            >
+              See my professional side
+              <Icon name="arrow-up-right" size={14} />
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- principles strip -->
+      <ul class="flex flex-col border-t border-white/[0.16] sm:flex-row">
+        {
+          principles.map((p, i) => (
+            <li
+              class:list={[
+                'flex flex-1 flex-col gap-2 px-6 py-6 sm:px-8 sm:pt-[26px] sm:pb-[30px]',
+                i === 0 && 'lg:pl-14',
+                i < principles.length - 1 && 'border-b border-white/[0.16] sm:border-r sm:border-b-0',
+              ]}
+            >
+              <span class="flex items-center gap-2.5">
+                <Icon name="check" size={15} class="shrink-0" />
+                <span class="text-[16px] font-semibold tracking-[-0.025em]">{p.title}</span>
+              </span>
+              <span class="text-[13.5px] leading-[1.55] text-white/[0.66]">{p.body}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>

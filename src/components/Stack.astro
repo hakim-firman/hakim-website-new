@@ -1,0 +1,235 @@
+---
+import { capabilityChecks, stackTabs, stackLayers } from '../data/site';
+import Icon from './Icon.astro';
+
+// Faces and chip colours lifted straight from the .pen slabs (Iso Body / shtcg).
+const slabs = [
+  { chip: '#34C77E', top: ['#5dd298', '#2fb371'], left: ['#2cb16f', '#11864c'], right: ['#279c62', '#0c7441'] },
+  { chip: '#00A651', top: ['#33b874', '#009549'], left: ['#1a8f52', '#006932'], right: ['#1a7d49', '#00582a'] },
+  { chip: '#0B7F45', top: ['#3c996a', '#0a723e'], left: ['#217249', '#064e2a'], right: ['#1f6241', '#054123'] },
+  { chip: '#0A5C36', top: ['#3b7d5e', '#095331'], left: ['#20593e', '#063920'], right: ['#1e4e37', '#042e1a'] },
+];
+// Top slab is drawn last so it overlaps the ones beneath it.
+const paint = [3, 2, 1, 0];
+const slabY = [0, 74, 148, 222];
+const FACE = {
+  top: 'M135 0l135 67.5-135 67.5-135-67.5z',
+  left: 'M0 67.5l135 67.5 0 22-135-67.5z',
+  right: 'M135 135l135-67.5 0 22-135 67.5z',
+};
+---
+
+<section id="stack" class="band">
+  <div class="rail py-16 md:py-20">
+    <div class="max-w-[62ch]" data-reveal>
+      <h2 class="section-title">A developer who owns the whole slice</h2>
+      <p class="mt-5 text-[15px] leading-[1.7] text-ink-2">
+        Schema, queues, auth, admin panel, front end, deploy. Five years of doing all of it means fewer
+        handoffs, fewer guesses, and a codebase the next person can actually read.
+      </p>
+
+      <ul class="mt-7 flex flex-col gap-3">
+        {
+          capabilityChecks.map((c, i) => (
+            <li class="flex items-start gap-2.5 text-[14px] text-ink" data-reveal style={`--reveal-delay:${i * 70}ms`}>
+              <Icon name="check" size={15} class="mt-1 shrink-0 text-green" />
+              {c}
+            </li>
+          ))
+        }
+      </ul>
+
+      <a href="/#services" class="btn btn-ghost mt-7">
+        See the services
+        <Icon name="arrow" size={15} />
+      </a>
+    </div>
+
+    <div class="mt-12" data-stack-widget>
+      <div class="flex flex-wrap gap-2" role="tablist" aria-label="Stack">
+        {
+          stackTabs.map((t, i) => (
+            <button
+              type="button"
+              role="tab"
+              id={`tab-${t.id}`}
+              aria-controls={`panel-${t.id}`}
+              aria-selected={i === 0 ? 'true' : 'false'}
+              tabindex={i === 0 ? 0 : -1}
+              data-stack-tab
+              class="rounded-full border border-line-2 px-3.5 py-1.5 font-mono text-[12px] text-ink-2 transition-all duration-200 hover:border-green-line hover:bg-green-tint hover:text-green-dark aria-selected:border-ink aria-selected:bg-ink aria-selected:text-white"
+            >
+              {t.label}
+            </button>
+          ))
+        }
+      </div>
+
+      {
+        stackTabs.map((t, i) => (
+          <p
+            id={`panel-${t.id}`}
+            role="tabpanel"
+            aria-labelledby={`tab-${t.id}`}
+            hidden={i !== 0}
+            data-stack-panel
+            class="mt-4 font-mono text-[13px] text-ink-2"
+          >
+            {t.blurb}
+          </p>
+        ))
+      }
+
+      <div class="mt-6 overflow-hidden rounded-2xl border border-line-2 bg-paper-2">
+        <div
+          class="flex items-center justify-between border-b border-line px-5 py-3 font-mono text-[11px] tracking-[0.1em] text-ink-3 uppercase"
+        >
+          <span>The slice I own</span>
+          <span class="normal-case">4 layers · 1 person</span>
+        </div>
+
+        <div class="grid items-center gap-10 px-5 py-10 md:grid-cols-2 md:px-8">
+          <div class="mx-auto w-full max-w-[270px]">
+            <svg
+              viewBox="0 0 270 416"
+              width="270"
+              height="416"
+              class="h-auto w-full overflow-visible"
+              aria-hidden="true"
+              data-iso
+            >
+              <defs>
+                <filter id="iso-shadow" x="-20%" y="-60%" width="140%" height="260%">
+                  <feGaussianBlur stdDeviation="8" />
+                </filter>
+                {
+                  slabs.map((slab, i) =>
+                    (['top', 'left', 'right'] as const).map((face) => (
+                      <linearGradient
+                        id={`iso-${i}-${face}`}
+                        x1="0"
+                        y1="0"
+                        x2={face === 'top' ? '0.35' : face === 'left' ? '0.9' : '0.1'}
+                        y2="1"
+                      >
+                        <stop offset="0" stop-color={slab[face][0]} />
+                        <stop offset="1" stop-color={slab[face][1]} />
+                      </linearGradient>
+                    )),
+                  )
+                }
+              </defs>
+
+              <ellipse
+                cx="135"
+                cy="384"
+                rx="107"
+                ry="32"
+                fill="#04351E"
+                opacity="0.2"
+                filter="url(#iso-shadow)"
+              />
+
+              {
+                paint.map((i) => (
+                  <g data-slab={i} transform={`translate(0 ${slabY[i]})`}>
+                    <path d={FACE.left} fill={`url(#iso-${i}-left)`} />
+                    <path d={FACE.right} fill={`url(#iso-${i}-right)`} />
+                    <path d={FACE.top} fill={`url(#iso-${i}-top)`} />
+                  </g>
+                ))
+              }
+            </svg>
+          </div>
+
+          <ul class="flex flex-col justify-between gap-6 py-2 md:h-[379px] md:gap-0">
+            {
+              stackLayers.map((l, i) => (
+                <li>
+                  <button
+                    type="button"
+                    data-legend={i}
+                    class="group flex w-full items-center gap-3.5 text-left"
+                  >
+                    <span class="hidden h-px w-[34px] shrink-0 bg-line-2 transition-all duration-300 group-hover:w-[46px] group-hover:bg-green sm:block" />
+                    <span
+                      class="size-[11px] shrink-0 rounded-[3px] transition-transform duration-200 group-hover:scale-125"
+                      style={`background:${slabs[i].chip}`}
+                    />
+                    <span class="flex flex-col gap-1">
+                      <span class="text-[17px] font-semibold tracking-[-0.024em] transition-colors group-hover:text-green-dark">
+                        {l.title}
+                      </span>
+                      <span class="font-mono text-[11.5px] leading-[1.5] text-ink-2">{l.items}</span>
+                    </span>
+                  </button>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-stack-widget]');
+  if (root) {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('[data-stack-tab]')];
+    const panels = [...root.querySelectorAll<HTMLElement>('[data-stack-panel]')];
+
+    const select = (index: number, focus = false) => {
+      tabs.forEach((tab, i) => {
+        const active = i === index;
+        tab.setAttribute('aria-selected', String(active));
+        tab.tabIndex = active ? 0 : -1;
+        panels[i].hidden = !active;
+        if (active && focus) tab.focus();
+      });
+    };
+
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => select(i));
+      tab.addEventListener('keydown', (e) => {
+        const map: Record<string, number> = {
+          ArrowRight: (i + 1) % tabs.length,
+          ArrowLeft: (i - 1 + tabs.length) % tabs.length,
+          Home: 0,
+          End: tabs.length - 1,
+        };
+        if (e.key in map) {
+          e.preventDefault();
+          select(map[e.key], true);
+        }
+      });
+    });
+
+    // Legend <-> isometric slab linking. Lifting only the hovered slab hides it
+    // under the one above, so the slabs above it move out of the way instead.
+    const slabEls = [...root.querySelectorAll<SVGGElement>('[data-slab]')];
+    const legends = [...root.querySelectorAll<HTMLElement>('[data-legend]')];
+
+    // Highlight only: moving a slab would push it under the one above it (and
+    // out of the card's clipped box), so hovering dims the rest instead.
+    const lift = (index: number | null) => {
+      slabEls.forEach((el) => {
+        const i = Number(el.dataset.slab);
+        el.style.transition = 'filter .3s ease';
+        el.style.filter =
+          index === null
+            ? ''
+            : i === index
+              ? 'drop-shadow(0 8px 16px rgba(5, 57, 31, 0.45))'
+              : 'saturate(0.3) brightness(1.12)';
+      });
+    };
+
+    legends.forEach((legend, i) => {
+      legend.addEventListener('mouseenter', () => lift(i));
+      legend.addEventListener('focus', () => lift(i));
+      legend.addEventListener('mouseleave', () => lift(null));
+      legend.addEventListener('blur', () => lift(null));
+    });
+  }
+</script>

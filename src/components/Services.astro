@@ -1,0 +1,209 @@
+---
+import { services, site } from '../data/site';
+import Icon from './Icon.astro';
+---
+
+<section id="services" class="band">
+  <div class="rail py-16 md:py-20">
+    <div class="max-w-[58ch]" data-reveal>
+      <p class="kicker">— Services</p>
+      <h2 class="section-title mt-4">What I can take off your plate</h2>
+      <p class="mt-5 text-[15px] leading-[1.7] text-ink-2">
+        Fixed scope or retainer. Either way you get one person who owns it end to end.
+      </p>
+    </div>
+
+    <ul class="mt-12 border-t border-line">
+      {
+        services.map((s, i) => (
+          <li class="border-b border-line" data-reveal style={`--reveal-delay:${i * 70}ms`}>
+            <button
+              type="button"
+              data-service-open={s.num}
+              aria-haspopup="dialog"
+              class="group grid w-full cursor-pointer grid-cols-[auto_1fr_auto] items-start gap-x-5 gap-y-3 py-7 text-left transition-colors duration-300 hover:bg-green-tint md:grid-cols-[56px_minmax(0,260px)_1fr_auto] md:px-3"
+            >
+              <span class="font-mono text-[12px] text-ink-3 transition-colors group-hover:text-green">
+                {s.num}
+              </span>
+
+              <h3 class="text-[17px] font-semibold tracking-[-0.02em] transition-transform duration-300 group-hover:translate-x-0.5">
+                {s.title}
+              </h3>
+
+              <div class="col-span-2 flex flex-col gap-3 md:col-span-1">
+                <p class="max-w-[56ch] text-[13.5px] leading-[1.65] text-ink-2">{s.body}</p>
+                <ul class="flex flex-wrap gap-1.5">
+                  {s.tags.map((t) => (
+                    <li class="tag transition-colors group-hover:border-green-line group-hover:text-green-dark">
+                      {t}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <span
+                class="col-start-3 row-start-1 flex size-8 items-center justify-center rounded-full border border-line-2 text-ink-3 transition-all duration-300 group-hover:border-green group-hover:bg-green group-hover:text-white md:col-start-4"
+                aria-hidden="true"
+              >
+                <Icon name="arrow-up-right" size={15} />
+              </span>
+            </button>
+          </li>
+        ))
+      }
+    </ul>
+
+    <p class="mt-7 text-[13.5px] text-ink-2" data-reveal>
+      Pricing works as hourly, fixed scope or retainer —
+      <a href="/rate-card" class="text-green-dark underline underline-offset-2">see the rate card</a>.
+    </p>
+  </div>
+</section>
+
+{/* one dialog per service — native <dialog>, so Esc and focus trapping come for free */}
+{
+  services.map((s) => (
+    <dialog
+      data-service-dialog={s.num}
+      aria-labelledby={`svc-title-${s.num}`}
+      class="m-auto w-[calc(100%-2rem)] max-w-[660px] rounded-[18px] border border-line-2 bg-paper p-0 text-ink shadow-[0_34px_80px_-24px_#05391f59]"
+    >
+      <div class="flex items-start gap-4 border-b border-line px-6 pt-6 pb-5 sm:px-8">
+        <div class="flex flex-1 flex-col gap-2">
+          <p class="font-mono text-[11px] font-medium tracking-[0.07em] text-green-dark">
+            {s.num} — SERVICE
+          </p>
+          <h2 id={`svc-title-${s.num}`} class="text-[clamp(1.25rem,1rem+1vw,1.625rem)] font-semibold tracking-[-0.038em]">
+            {s.title}
+          </h2>
+        </div>
+
+        <button
+          type="button"
+          data-service-close
+          aria-label="Close"
+          class="flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-full bg-muted text-ink-2 transition-colors hover:bg-green hover:text-white"
+          style="background-color:#F2F3F0"
+        >
+          <Icon name="close" size={17} />
+        </button>
+      </div>
+
+      <div class="flex flex-col gap-6 px-6 py-6 sm:px-8">
+        <p class="text-[15.5px] leading-[1.7] text-ink-2">{s.lead}</p>
+
+        <div class="flex flex-col gap-3">
+          <p class="font-mono text-[10.5px] tracking-[0.12em] text-ink-3 uppercase">What you get</p>
+          <ul class="flex flex-col gap-2.5">
+            {s.deliverables.map((d) => (
+              <li class="flex items-start gap-2.5 text-[14px] leading-[1.55]">
+                <Icon name="check" size={15} class="mt-1 shrink-0 text-green" />
+                {d}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <dl class="grid gap-4 border-t border-line pt-5 sm:grid-cols-3">
+          {s.meta.map((m) => (
+            <div class="flex flex-col gap-1.5">
+              <dt class="font-mono text-[10px] tracking-[0.12em] text-ink-3 uppercase">{m.k}</dt>
+              <dd class="text-[13.5px] font-medium">{m.v}</dd>
+            </div>
+          ))}
+        </dl>
+
+        <ul class="flex flex-wrap gap-2">
+          {s.tags.map((t) => (
+            <li class="tag">{t}</li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-3 border-t border-line bg-paper-2 px-6 py-5 sm:px-8">
+        <a href={site.upwork} target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+          Start this on Upwork
+          <Icon name="arrow-up-right" size={14} />
+        </a>
+        <a href="/rate-card" class="btn btn-ghost">See the rate card</a>
+        <span class="ml-auto hidden font-mono text-[11px] text-ink-3 sm:block">Esc to close</span>
+      </div>
+    </dialog>
+  ))
+}
+
+<script>
+  const dialogs = new Map<string, HTMLDialogElement>();
+  document.querySelectorAll<HTMLDialogElement>('[data-service-dialog]').forEach((d) => {
+    dialogs.set(d.dataset.serviceDialog!, d);
+  });
+
+  const lockScroll = (locked: boolean) => {
+    document.documentElement.style.overflow = locked ? 'hidden' : '';
+  };
+
+  document.querySelectorAll<HTMLButtonElement>('[data-service-open]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const dialog = dialogs.get(btn.dataset.serviceOpen!);
+      if (!dialog) return;
+      dialog.showModal();
+      lockScroll(true);
+    });
+  });
+
+  dialogs.forEach((dialog) => {
+    dialog.querySelector('[data-service-close]')?.addEventListener('click', () => dialog.close());
+
+    // click on the backdrop (outside the card) closes it
+    dialog.addEventListener('click', (event) => {
+      if (event.target !== dialog) return;
+      const box = dialog.getBoundingClientRect();
+      const outside =
+        event.clientX < box.left ||
+        event.clientX > box.right ||
+        event.clientY < box.top ||
+        event.clientY > box.bottom;
+      if (outside) dialog.close();
+    });
+
+    dialog.addEventListener('close', () => lockScroll(false));
+  });
+</script>
+
+<style is:global>
+  dialog[data-service-dialog] {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+    transition:
+      opacity 0.22s ease,
+      transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+      overlay 0.22s allow-discrete,
+      display 0.22s allow-discrete;
+  }
+
+  dialog[data-service-dialog][open] {
+    opacity: 1;
+    transform: none;
+  }
+
+  @starting-style {
+    dialog[data-service-dialog][open] {
+      opacity: 0;
+      transform: translateY(12px) scale(0.98);
+    }
+  }
+
+  dialog[data-service-dialog]::backdrop {
+    background-color: rgba(11, 26, 18, 0.8);
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    dialog[data-service-dialog],
+    dialog[data-service-dialog]::backdrop {
+      transition: none;
+    }
+  }
+</style>

@@ -1,0 +1,196 @@
+@import 'tailwindcss';
+
+@import '@fontsource-variable/instrument-sans/wght.css';
+@import '@fontsource-variable/jetbrains-mono/wght.css';
+
+@theme {
+  --font-sans: 'Instrument Sans Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, monospace;
+
+  --color-ink: #11181c;
+  --color-ink-2: #5a646b;
+  --color-ink-3: #8b959c;
+  --color-paper: #ffffff;
+  --color-paper-2: #fbf9fa;
+  --color-line: #0000000f;
+  --color-line-2: #00000014;
+
+  --color-green: #00a651;
+  --color-green-dark: #00803e;
+  --color-green-deep: #05391f;
+  --color-green-tint: #f1faf5;
+  --color-green-line: #c9ebd9;
+
+  --shadow-chip: 0 3px 10px 0 #0a5c361a;
+  --shadow-lift: 0 18px 40px -24px #05391f40;
+}
+
+@layer base {
+  :root {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    color-scheme: light;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background-color: var(--color-green);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-green);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+}
+
+@layer components {
+  /* Laravel-style vertical rails: the 1100px column with hairline sides */
+  .rail {
+    width: 100%;
+    max-width: 1100px;
+    margin-inline: auto;
+    border-inline: 1px solid var(--color-line);
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .rail {
+      padding-inline: 3.5rem;
+    }
+  }
+
+  .band {
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .kicker {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-green-dark);
+  }
+
+  .section-title {
+    font-size: clamp(1.875rem, 1.2rem + 2.4vw, 2.75rem);
+    line-height: 1.08;
+    letter-spacing: -0.045em;
+    font-weight: 600;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 7px;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1;
+    transition:
+      transform 0.18s ease,
+      background-color 0.18s ease,
+      border-color 0.18s ease,
+      color 0.18s ease,
+      box-shadow 0.18s ease;
+  }
+
+  .btn:active {
+    transform: translateY(1px);
+  }
+
+  .btn-primary {
+    background-color: var(--color-green);
+    color: #fff;
+    box-shadow: 0 1px 2px #05391f22;
+  }
+
+  .btn-primary:hover {
+    background-color: var(--color-green-dark);
+    box-shadow: 0 10px 24px -12px #00a65199;
+  }
+
+  .btn-ghost {
+    border: 1px solid var(--color-line-2);
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--color-green-line);
+    background-color: var(--color-green-tint);
+    color: var(--color-green-dark);
+  }
+
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    border: 1px solid var(--color-line-2);
+    padding: 0.25rem 0.625rem;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--color-ink-2);
+  }
+}
+
+/* ---- scroll reveal ---- */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    scroll-behavior: auto;
+  }
+
+  [data-reveal],
+  [data-reveal].is-visible {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

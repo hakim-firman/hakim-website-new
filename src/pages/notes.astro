@@ -1,0 +1,80 @@
+---
+import SubPage from '../layouts/SubPage.astro';
+import Icon from '../components/Icon.astro';
+import { notes, site } from '../data/site';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Blog',
+  name: `Notes — ${site.name}`,
+  url: `${site.url}/notes`,
+  author: { '@id': `${site.url}/#person` },
+  blogPost: notes.map((n) => ({
+    '@type': 'BlogPosting',
+    headline: n.title,
+    description: n.body,
+    datePublished: n.datetime,
+    author: { '@id': `${site.url}/#person` },
+    url: `${site.url}/notes/${n.slug}`,
+  })),
+};
+---
+
+<SubPage
+  title={`Notes on Laravel, APIs and automation — ${site.name}`}
+  description="Longer write-ups on Laravel queues, Filament admin panels, n8n automation and the TALL stack — the same things I ship for clients."
+  kicker="— Writing"
+  heading="Notes on Laravel, APIs, and automation"
+  sub="Longer write-ups on the same things I ship day to day."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />
+
+  <section class="band">
+    <div class="rail py-6">
+      <ul class="border-t border-line">
+        {
+          notes.map((n, i) => (
+            <li class="border-b border-line" data-reveal style={`--reveal-delay:${i * 70}ms`}>
+              <a
+                href={`/notes/${n.slug}`}
+                class="group grid grid-cols-[auto_1fr_auto] items-start gap-x-5 gap-y-2 py-7 transition-colors duration-300 hover:bg-green-tint md:px-3"
+              >
+                <span class="font-mono text-[12px] text-ink-3 transition-colors group-hover:text-green">
+                  {n.num}
+                </span>
+
+                <div class="flex flex-col gap-2">
+                  <h2 class="text-[17px] font-semibold tracking-[-0.02em]">{n.title}</h2>
+                  <p class="max-w-[68ch] text-[13.5px] leading-[1.65] text-ink-2">{n.body}</p>
+                  <time
+                    datetime={n.datetime}
+                    class="font-mono text-[11px] text-ink-3 md:hidden"
+                  >
+                    {n.date}
+                  </time>
+                </div>
+
+                <span class="flex items-center gap-4">
+                  <time datetime={n.datetime} class="hidden font-mono text-[11px] text-ink-3 md:block">
+                    {n.date}
+                  </time>
+                  <span
+                    class="flex size-8 items-center justify-center rounded-full border border-line-2 text-ink-3 transition-all duration-300 group-hover:border-green group-hover:bg-green group-hover:text-white"
+                    aria-hidden="true"
+                  >
+                    <Icon name="arrow-up-right" size={15} />
+                  </span>
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+
+      <p class="mt-6 font-mono text-[11.5px] text-ink-3">
+        Want one of these as a walkthrough for your team?{' '}
+        <a href="/#contact" class="text-green-dark underline underline-offset-2">Ask me</a>.
+      </p>
+    </div>
+  </section>
+</SubPage>

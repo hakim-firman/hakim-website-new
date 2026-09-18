@@ -1,0 +1,30 @@
+# Hakim Firman
+
+> Full-stack web developer based in Sleman, Yogyakarta, Indonesia (GMT+7). Specializes in Laravel, Filament, Livewire and React — schema, queues, admin panels, front end and deploy, usually solo. Top Rated Plus on Upwork with a 100% job success score.
+
+Hakim builds backend-heavy products end to end: database schema, queues and jobs, REST APIs, admin panels (Filament/Nova), and the front end that sits on top (React, Next, Livewire). Recent work includes a WhatsApp-to-Airtable integration, barcode ticketing systems, QR restaurant payments, and n8n-based automation with AI agents and RAG over client documents.
+
+## Services
+
+- [Laravel Development](https://hakimfirman.my.id/#services): schema, migrations, Filament/Nova admin panels, REST APIs, queues, deploy.
+- [WordPress Development](https://hakimfirman.my.id/#services): Elementor builds, custom themes, HTML-to-WordPress conversion.
+- [Frontend Development](https://hakimfirman.my.id/#services): React, Next, Livewire, Tailwind — responsive and accessible.
+- [n8n & Workflow Automation](https://hakimfirman.my.id/#services): API integration, AI agents, RAG, webhooks.
+- [PHP Development](https://hakimfirman.my.id/#services): PHP 8, Composer, legacy rescues, integrations.
+
+## Pages
+
+- [Home](https://hakimfirman.my.id/): overview, services, stack, process, testimonials.
+- [Case study — WhatsApp to Airtable](https://hakimfirman.my.id/case-study/whatsapp-airtable): a Laravel backend syncing WhatsApp conversations into Airtable in real time.
+- [Notes](https://hakimfirman.my.id/notes): write-ups on Laravel queues, Filament, n8n automation and the TALL stack.
+- [Portfolio deck](https://hakimfirman.my.id/deck): thirteen-slide overview of shipped systems.
+- [FAQ](https://hakimfirman.my.id/faq): timezone, pricing model, stack, how fast he can start.
+- [Rate card](https://hakimfirman.my.id/rate-card): hourly, fixed scope, and retainer pricing.
+- [Uses](https://hakimfirman.my.id/uses): editor, terminal, hosting and hardware.
+
+## Contact
+
+- Email: hi@hakimfirman.my.id
+- Upwork: https://www.upwork.com/freelancers/hakimf3
+- GitHub: https://github.com/hakim-firman
+- LinkedIn: https://www.linkedin.com/in/hakimfirman/

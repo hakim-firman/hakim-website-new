@@ -1,0 +1,103 @@
+---
+import { Image } from 'astro:assets';
+import face from '../assets/hakim-face.png';
+import { upworkChecks, site } from '../data/site';
+import Icon from './Icon.astro';
+
+const stats = [
+  { v: '7', l: 'Total jobs' },
+  { v: '1.8K', l: 'Total hours' },
+];
+---
+
+<section id="upwork" class="band bg-paper-2">
+  <div class="rail py-16 md:py-20">
+    <div class="max-w-[58ch]" data-reveal>
+      <p class="kicker">— Upwork</p>
+      <h2 class="section-title mt-4">Top Rated Plus, 100% job success</h2>
+      <p class="mt-5 text-[15px] leading-[1.7] text-ink-2">
+        Not numbers I picked — this is the live profile clients hire me through.
+      </p>
+
+      <ul class="mt-7 flex flex-col gap-3">
+        {
+          upworkChecks.map((c) => (
+            <li class="flex items-start gap-2.5 text-[14px]">
+              <Icon name="check" size={15} class="mt-1 shrink-0 text-green" />
+              {c}
+            </li>
+          ))
+        }
+      </ul>
+
+      <div class="mt-7 flex flex-wrap items-center gap-4">
+        <a href={site.upwork} target="_blank" rel="noopener noreferrer me" class="btn btn-primary">
+          View my Upwork profile
+          <Icon name="arrow-up-right" size={15} />
+        </a>
+        <span class="font-mono text-[12px] text-ink-3">upwork.com/freelancers/hakimf3</span>
+      </div>
+    </div>
+
+    <!-- Upwork profile card — a stylised replica of the live profile -->
+    <figure
+      class="mt-12 overflow-hidden rounded-2xl border border-green-line bg-paper shadow-lift"
+      data-reveal
+    >
+      <div class="flex items-center justify-between border-b border-line px-5 py-3">
+        <span class="flex items-center gap-1 text-[15px] font-bold text-green">
+          upwork<span class="size-1.5 rounded-full bg-green"></span>
+        </span>
+        <span class="font-mono text-[11px] text-ink-3">Sign up</span>
+      </div>
+
+      <div class="grid gap-6 p-5 sm:p-7 md:grid-cols-[1fr_auto]">
+        <div class="flex items-start gap-4">
+          <div class="relative shrink-0">
+            <Image src={face} alt="" width={64} height={64} class="size-16 rounded-full object-cover" />
+            <span
+              class="absolute -right-0.5 -bottom-0.5 flex size-5 items-center justify-center rounded-full border-2 border-paper bg-green text-white"
+            >
+              <Icon name="check" size={11} />
+            </span>
+          </div>
+
+          <div class="min-w-0">
+            <p class="text-[18px] font-semibold tracking-[-0.02em]">Hakim F.</p>
+            <p class="mt-1 text-[13px] leading-[1.5] text-ink-2">
+              n8n &amp; Workflow Automation Expert | API Integration, AI Agents, RAG
+            </p>
+            <p class="mt-2.5 flex flex-wrap items-center gap-2">
+              <span class="tag border-green-line bg-green-tint font-semibold text-green-dark">100%</span>
+              <span class="tag border-green-line bg-green-tint font-semibold text-green-dark"
+                >Top Rated Plus</span
+              >
+              <span class="tag inline-flex items-center gap-1">
+                <Icon name="star" size={11} class="text-green" />5.0 (4)
+              </span>
+            </p>
+            <p class="mt-2.5 font-mono text-[11px] text-ink-3">Sleman, Indonesia — GMT+7</p>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-4 md:w-[230px]">
+          <dl class="grid grid-cols-2 gap-3">
+            {
+              stats.map((s) => (
+                <div class="rounded-xl border border-line bg-paper-2 px-4 py-3">
+                  <dd class="text-[18px] leading-none font-semibold">{s.v}</dd>
+                  <dt class="mt-1.5 font-mono text-[10px] tracking-[0.1em] text-ink-3 uppercase">{s.l}</dt>
+                </div>
+              ))
+            }
+          </dl>
+          <a href={site.upwork} target="_blank" rel="noopener noreferrer" class="btn btn-primary justify-center"
+            >Hire me</a
+          >
+          <span class="btn btn-ghost justify-center">Book a consultation</span>
+          <span class="text-center font-mono text-[11px] text-ink-3">$25 per 30 min video meeting</span>
+        </div>
+      </div>
+    </figure>
+  </div>
+</section>

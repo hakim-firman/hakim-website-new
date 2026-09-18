@@ -1,0 +1,116 @@
+---
+import { site, faqs, services } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  noindex?: boolean;
+}
+
+const {
+  title = site.title,
+  description = site.description,
+  image = '/og.png',
+  noindex = false,
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname.replace(/\/$/, '') || '/', Astro.site).href;
+const ogImage = new URL(image, Astro.site).href;
+
+const person = {
+  '@type': 'Person',
+  '@id': `${site.url}/#person`,
+  name: site.name,
+  jobTitle: site.jobTitle,
+  url: site.url,
+  email: `mailto:${site.email}`,
+  image: `${site.url}/og.png`,
+  description: site.description,
+  knowsAbout: [...site.keywords],
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: site.location.city,
+    addressRegion: site.location.region,
+    addressCountry: site.location.country,
+  },
+  sameAs: [site.upwork, site.github, site.linkedin, site.instagram],
+};
+
+const professionalService = {
+  '@type': 'ProfessionalService',
+  '@id': `${site.url}/#service`,
+  name: `${site.name} — Web Development`,
+  url: site.url,
+  image: `${site.url}/og.png`,
+  priceRange: '$$',
+  areaServed: 'Worldwide',
+  provider: { '@id': `${site.url}/#person` },
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: site.location.city,
+    addressRegion: site.location.region,
+    addressCountry: site.location.country,
+  },
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Services',
+    itemListElement: services.map((s) => ({
+      '@type': 'Offer',
+      itemOffered: { '@type': 'Service', name: s.title, description: s.body },
+    })),
+  },
+};
+
+const faqPage = {
+  '@type': 'FAQPage',
+  '@id': `${site.url}/#faq`,
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+
+const webSite = {
+  '@type': 'WebSite',
+  '@id': `${site.url}/#website`,
+  url: site.url,
+  name: site.name,
+  inLanguage: 'en',
+  publisher: { '@id': `${site.url}/#person` },
+};
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [person, webSite, professionalService, faqPage],
+};
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+<meta name="author" content={site.name} />
+<meta name="keywords" content={site.keywords.join(', ')} />
+<meta name="theme-color" content="#00a651" />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content={site.name} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:locale" content="en_US" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+<meta name="geo.region" content="ID-YO" />
+<meta name="geo.placename" content={site.location.city} />
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />

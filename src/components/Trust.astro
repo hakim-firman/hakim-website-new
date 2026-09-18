@@ -1,0 +1,23 @@
+---
+import { trustStats } from '../data/site';
+---
+
+<section class="band bg-paper-2" aria-label="Upwork verification">
+  <div class="rail flex flex-col gap-6 py-7 sm:flex-row sm:items-center sm:justify-between">
+    <p class="font-mono text-[11px] leading-[1.6] tracking-[0.1em] text-ink-3 uppercase">
+      Verified on Upwork<br class="hidden sm:block" />
+      <span class="text-ink-3/80">Not self-reported</span>
+    </p>
+
+    <dl class="grid flex-1 grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-3 sm:justify-items-end">
+      {
+        trustStats.map((s) => (
+          <div class="flex flex-col gap-1" data-reveal>
+            <dd class="text-[17px] leading-none font-semibold tracking-[-0.03em]">{s.value}</dd>
+            <dt class="font-mono text-[10px] tracking-[0.12em] text-ink-3 uppercase">{s.label}</dt>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+</section>
